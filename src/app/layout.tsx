@@ -1,15 +1,14 @@
-import type { FC, ReactNode } from "react";
+import type { FC, ReactNode } from 'react'
 
 interface RootLayoutProps {
-  children: ReactNode;
+  children: ReactNode
 }
-
 const RootLayout: FC<RootLayoutProps> = ({ children }) => {
   return (
     <html lang="en">
       <body>{children}</body>
     </html>
-  );
-};
+  )
+}
 
-export default RootLayout;
+export default RootLayout
