@@ -1,4 +1,5 @@
 import type { FC, ReactNode } from 'react'
+import 'the-new-css-reset/css/reset.css'
 
 interface RootLayoutProps {
   children: ReactNode
