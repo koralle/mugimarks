@@ -58,7 +58,7 @@
         "decorations": false,
         "fullscreen": false,
         "height": 600,
-        "resizable": true,
+        "resizable": false,
         "title": "mugimarks",
         "width": 800
       }
