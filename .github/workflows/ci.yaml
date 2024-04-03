@@ -1,0 +1,88 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ci-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      src: ${{ steps.changes.outputs.src }}
+      src-tauri: ${{ steps.changes.outputs.src-tauri }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+
+      - name: Paths Filter
+        id: changes
+        uses: dorny/paths-filter@v3.0.2
+        with:
+          filters: |
+            src:
+              - 'package.json'
+              - 'bun.lockb'
+              - 'next.config.mjs'
+              - 'next-env.d.ts'
+              - 'tsconfig.json'
+              - 'src/**'
+            src-tauri:
+              - 'src-tauri/tauri.conf.json'
+              - 'src-tauri/Cargo.toml'
+              - 'src-tauri/Cargo.lock'
+              - 'src-tauri/build.rs'
+              - 'src-tauri/src/**'
+
+  ci-biome:
+    runs-on: ubuntu-latest
+    needs: ci-changes
+    if: ${{ needs.ci-changes.outputs.src == 'true' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2.1.1
+        with:
+          version: latest
+
+      - name: Biome ci
+        run: biome ci .
+
+  clippy:
+    runs-on: ubuntu-latest
+    needs: ci-changes
+    if: ${{ needs.ci-changes.outputs.src-tauri == 'true' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+
+      - uses: Swatinem/rust-cache@v2.7.3
+
+      - uses: giraffate/clippy-action@v1
+        with:
+          reporter: 'github-pr-review'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  rustfmt:
+    runs-on: ubuntu-latest
+    needs: ci-changes
+    if: ${{ needs.ci-changes.outputs.src-tauri == 'true' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+
+      - uses: Swatinem/rust-cache@v2.7.3
+
+      - name: Run rustfmt
+        run: cargo fmt -- --check
+
