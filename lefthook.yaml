@@ -1,0 +1,37 @@
+pre-commit:
+  parallel: true
+  commands:
+    biome-check:
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      run: |
+        bun biome check \
+          --no-errors-on-unmatched \
+          --files-ignore-unknown=true {staged_files}
+        git update-index --again
+
+    type-check:
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      run: |
+        bun tsc --noEmit
+
+    clippy:
+      root: "src-tauri/"
+      glob: "*.rs"
+      run: |
+        cargo clippy --all-targets --all-features -- -D warnings
+
+    rustfmt:
+      root: "src-tauri/"
+      glob: "*.rs"
+      run: |
+        cargo fmt -- --check
+
+
+pre-push:
+  commands:
+    biome-check:
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      run: |
+        bun biome check \
+          --no-errors-on-unmatched \
+          --files-ignore-unknown=true {push_files}
