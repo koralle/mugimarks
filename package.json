@@ -10,7 +10,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint . --apply",
+    "check": "biome check .",
+    "format": "biome format . --write",
+    "ci": "biome ci ."
   },
   "dependencies": {
     "react": "^18",
