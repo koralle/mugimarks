@@ -13,7 +13,7 @@ jobs:
       src-tauri: ${{ steps.changes.outputs.src-tauri }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.2.2
 
       - name: Paths Filter
         id: changes
@@ -40,10 +40,10 @@ jobs:
     if: ${{ needs.ci-changes.outputs.src == 'true' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.2.2
 
       - name: Setup Biome
-        uses: biomejs/setup-biome@v2.1.1
+        uses: biomejs/setup-biome@v2.2.1
         with:
           version: latest
 
@@ -56,13 +56,13 @@ jobs:
     if: ${{ needs.ci-changes.outputs.src-tauri == 'true' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.2.2
 
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy
 
-      - uses: Swatinem/rust-cache@v2.7.3
+      - uses: Swatinem/rust-cache@v2.7.5
 
       - uses: giraffate/clippy-action@v1
         with:
@@ -76,13 +76,13 @@ jobs:
     if: ${{ needs.ci-changes.outputs.src-tauri == 'true' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.2.2
 
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt
 
-      - uses: Swatinem/rust-cache@v2.7.3
+      - uses: Swatinem/rust-cache@v2.7.5
 
       - name: Run rustfmt
         working-directory: src-tauri
