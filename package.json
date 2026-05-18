@@ -29,7 +29,7 @@
     "the-new-css-reset": "^1.11.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.6.4",
+    "@biomejs/biome": "^2.4.15",
     "@tauri-apps/cli": "^1.5.11",
     "@types/node": "^20.12.3",
     "@types/react": "^18.2.74",
