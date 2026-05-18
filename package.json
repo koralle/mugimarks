@@ -36,6 +36,6 @@
     "@types/react-dom": "^18.2.23",
     "@vanilla-extract/next-plugin": "^2.4.0",
     "lefthook": "^1.6.8",
-    "typescript": "^5.4.3"
+    "typescript": "^6.0.3"
   }
 }
